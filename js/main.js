@@ -60,14 +60,109 @@ function areTypesEqual(baseTypes, megaTypes) {
   return sortedBase.every((type, index) => type === sortedMega[index]);
 }
 
+let allPokemon = [];
+let suggestionsContainer = null;
+let searchInput = null;
+
 async function fetchPokemonData() {
   try {
     const response = await fetch("data/pokemon.json");
     const data = await response.json();
-    displayPokemon(data);
+    allPokemon = data;
+    displayPokemon(allPokemon);
+    setupSearch();
   } catch (error) {
     console.error("データの読み込みに失敗しました:", error);
   }
+}
+
+function setupSearch() {
+  searchInput = document.getElementById("search-input");
+  suggestionsContainer = document.getElementById("search-suggestions");
+  const searchBox = document.querySelector(".search-box");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value;
+    updateSearch(query);
+  });
+
+  searchInput.addEventListener("focus", () => {
+    updateSearch(searchInput.value);
+  });
+
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      hideSuggestions();
+      searchInput.blur();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!searchBox.contains(event.target)) {
+      hideSuggestions();
+    }
+  });
+}
+
+function updateSearch(query) {
+  const normalizedQuery = query.trim();
+
+  if (normalizedQuery === "") {
+    displayPokemon(allPokemon);
+    hideSuggestions();
+    return;
+  }
+
+  const results = allPokemon.filter((pokemon) =>
+    normalizeName(pokemon.base.name).includes(normalizedQuery),
+  );
+
+  displayPokemon(results);
+  renderSuggestions(results, normalizedQuery);
+}
+
+function normalizeName(name) {
+  return name.toString().toLowerCase();
+}
+
+function renderSuggestions(results, query) {
+  if (!suggestionsContainer) return;
+
+  const suggestions = results
+    .slice(0, 6)
+    .map((pokemon) => pokemon.base.name)
+    .filter((value, index, self) => self.indexOf(value) === index);
+
+  if (suggestions.length === 0) {
+    suggestionsContainer.innerHTML = "";
+    hideSuggestions();
+    return;
+  }
+
+  suggestionsContainer.innerHTML = suggestions
+    .map(
+      (name) =>
+        `<button type="button" class="search-suggestion">${name}</button>`,
+    )
+    .join("");
+
+  suggestionsContainer.classList.remove("hidden");
+
+  suggestionsContainer
+    .querySelectorAll(".search-suggestion")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        searchInput.value = button.textContent;
+        updateSearch(button.textContent);
+        hideSuggestions();
+        searchInput.focus();
+      });
+    });
+}
+
+function hideSuggestions() {
+  if (!suggestionsContainer) return;
+  suggestionsContainer.classList.add("hidden");
 }
 
 function displayPokemon(pokemonList) {

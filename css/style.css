@@ -33,6 +33,7 @@ header h1 {
 
 .search-box {
   margin-top: 20px;
+  position: relative;
 }
 
 .search-box input {
@@ -43,6 +44,45 @@ header h1 {
   border: none;
   font-size: 1em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-suggestions {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 400px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  margin-top: 10px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.search-suggestions.hidden {
+  display: none;
+}
+
+.search-suggestion {
+  width: 100%;
+  padding: 10px 14px;
+  text-align: left;
+  background: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.search-suggestion:hover,
+.search-suggestion:focus {
+  background: #f7f7f7;
+}
+
+.search-suggestion + .search-suggestion {
+  border-top: 1px solid #eee;
 }
 
 footer {
