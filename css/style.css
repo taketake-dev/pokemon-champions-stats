@@ -6,6 +6,54 @@ body {
   padding: 20px;
 }
 
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #3f51b5 0%, #ff5252 100%);
+  color: white;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8em;
+  line-height: 1.4;
+}
+
+.intro {
+  margin-top: 15px;
+  font-size: 0.95em;
+  opacity: 0.9;
+}
+
+.sub-text {
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+.search-box {
+  margin-top: 20px;
+}
+
+.search-box input {
+  padding: 10px 20px;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 25px;
+  border: none;
+  font-size: 1em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  color: #888;
+  font-size: 0.8em;
+  border-top: 1px solid #ddd;
+}
+
 h1 {
   text-align: center;
   color: #2c3e50;

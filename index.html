@@ -2,14 +2,39 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ポケモン チャンピョンズ メガシンカ図鑑</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <h1>メガシンカ種族値チェッカー</h1>
+    <header>
+      <h1>ポケモン チャンピョンズ<br />内定メガシンカデータベース</h1>
+      <div class="intro">
+        <p>
+          『ポケモン
+          チャンピョンズ』に内定しているポケモンの、メガシンカ前後のステータス変化をまとめたデータベースです。
+        </p>
+        <p class="sub-text">対戦の戦略立案や、種族値の確認にご活用ください。</p>
+      </div>
+      <div class="search-box">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="ポケモン名で検索..."
+        />
+      </div>
+    </header>
 
-    <!-- データを流し込むためのコンテナ -->
-    <div id="pokemon-container"></div>
+    <main>
+      <div id="pokemon-container"></div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 taketake-dev</p>
+      <p class="disclaimer">
+        ※当サイトは個人によるファンサイトであり、公式とは関係ありません。
+      </p>
+    </footer>
 
     <script src="js/main.js"></script>
   </body>
