@@ -105,7 +105,7 @@ function setupSearch() {
 }
 
 function updateSearch(query) {
-  const normalizedQuery = query.trim();
+  const normalizedQuery = normalizeName(query.trim());
 
   if (normalizedQuery === "") {
     displayPokemon(allPokemon);
@@ -122,7 +122,14 @@ function updateSearch(query) {
 }
 
 function normalizeName(name) {
-  return name.toString().toLowerCase();
+  const value = name.toString().toLowerCase();
+  return toKatakana(value);
+}
+
+function toKatakana(text) {
+  return text.replace(/[\u3041-\u3096]/g, (char) =>
+    String.fromCharCode(char.charCodeAt(0) + 0x60),
+  );
 }
 
 function renderSuggestions(results, query) {
