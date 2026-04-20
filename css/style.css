@@ -64,23 +64,36 @@ h3 {
   color: #d32f2f;
 }
 
-.stat-list {
+.stat-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.stat-list,
+.total-list {
   list-style: none;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  margin: 0;
   font-size: 0.9em;
 }
 
-.stat-list li {
+.stat-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stat-list li,
+.total-list li {
   background: #f0f0f0;
   padding: 8px 10px;
   border-radius: 4px;
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
   align-items: center;
   min-width: 0;
+  width: auto;
 }
 
 .stat-list li span {
@@ -97,7 +110,7 @@ h3 {
   white-space: nowrap;
 }
 
-.stat-list li.total {
+.total-list li.total {
   background: #333;
   color: white;
   font-weight: bold;

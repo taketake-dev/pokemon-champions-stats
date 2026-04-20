@@ -5,7 +5,6 @@ const STAT_KEYS = [
   "sp_attack",
   "sp_defense",
   "speed",
-  "total",
 ];
 
 const STAT_LABELS = {
@@ -23,9 +22,7 @@ const TYPE_CHANGED_CLASS = "type-changed";
 function buildStatList(stats, values) {
   return stats
     .map((key) => {
-      const value = values[key];
-      const className = key === "total" ? ' class="total"' : "";
-      return `<li${className}>${STAT_LABELS[key]}: ${value}</li>`;
+      return `<li><span class="stat-label">${STAT_LABELS[key]}</span><span class="stat-value">${values[key]}</span></li>`;
     })
     .join("");
 }
@@ -35,10 +32,19 @@ function buildMegaStatList(stats, megaStats, baseStats) {
     .map((key) => {
       const diff = megaStats[key] - baseStats[key];
       const diffText = formatDiffText(diff);
-      const className = key === "total" ? ' class="total"' : "";
-      return `<li${className}>${STAT_LABELS[key]}: ${megaStats[key]} (${diffText})</li>`;
+      return `<li><span class="stat-label">${STAT_LABELS[key]}</span><span class="stat-value">${megaStats[key]} (${diffText})</span></li>`;
     })
     .join("");
+}
+
+function buildTotalList(total) {
+  return `<ul class="total-list"><li class="total">${STAT_LABELS.total}: ${total}</li></ul>`;
+}
+
+function buildMegaTotalList(total, baseTotal) {
+  const diff = total - baseTotal;
+  const diffText = formatDiffText(diff);
+  return `<ul class="total-list"><li class="total">${STAT_LABELS.total}: ${total} (${diffText})</li></ul>`;
 }
 
 function formatDiffText(diff) {
@@ -73,6 +79,7 @@ function displayPokemon(pokemonList) {
     card.className = "pokemon-card";
 
     const baseStatsList = buildStatList(STAT_KEYS, pokemon.base.stats);
+    const baseTotalList = buildTotalList(pokemon.base.stats.total);
     const megaHtml = pokemon.mega_evolutions
       .map((mega) => {
         const typeClass = areTypesEqual(pokemon.base.types, mega.types)
@@ -84,7 +91,10 @@ function displayPokemon(pokemonList) {
             <h3>${mega.name}</h3>
             <p class="type-row${typeClass}">タイプ: <span class="type-value">${mega.types.join(" / ")}</span></p>
             <p>特性: <strong>${mega.ability}</strong></p>
-            <ul class="stat-list">${buildMegaStatList(STAT_KEYS, mega.stats, pokemon.base.stats)}</ul>
+            <div class="stat-group">
+              <ul class="stat-list">${buildMegaStatList(STAT_KEYS, mega.stats, pokemon.base.stats)}</ul>
+              ${buildMegaTotalList(mega.stats.total, pokemon.base.stats.total)}
+            </div>
           </div>
         `;
       })
@@ -95,7 +105,10 @@ function displayPokemon(pokemonList) {
       <div class="base-section">
         <p class="type-row">タイプ: ${pokemon.base.types.join(" / ")}</p>
         <p>特性: ${pokemon.base.abilities.join(" / ")}</p>
-        <ul class="stat-list">${baseStatsList}</ul>
+        <div class="stat-group">
+          <ul class="stat-list">${baseStatsList}</ul>
+          ${baseTotalList}
+        </div>
       </div>
       ${megaHtml}
     `;
